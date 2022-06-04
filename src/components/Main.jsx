@@ -2,12 +2,14 @@ import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Index from "../pages/Index";
 import Show from "../pages/Show";
-import deployedApiUrl from "../config"
+import CONFIG from "../config/index";
+import SignupPage from "../pages/SignupPage"
+import LoginPage from "../pages/LoginPage";
 
 export default function Main() {
   const [people, setPeople] = useState(null);
 
-  const URL = deployedApiUrl
+  const URL = CONFIG.peopleAPI;
 
   const getPeople = async () => {
     const data = await fetch(URL).then((res) => res.json());
@@ -62,6 +64,8 @@ export default function Main() {
             />
           }
         />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </main>
   );

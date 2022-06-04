@@ -22,6 +22,7 @@ nav {
   @include white-text-black-bg;
   display: flex;
   justify-content: flex-start;
+  gap: 30px;
 
   a {
     @include white-text-black-bg;
@@ -50,6 +51,21 @@ div {
       }
     }
   }
+}
+
+.auth-form, form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 // --------------------------

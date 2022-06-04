@@ -42,6 +42,7 @@ export default function Index({ people, createPeople }) {
   return (
     <section>
       <form onSubmit={handleSubmit}>
+        <legend>New Person</legend>
         <input
           type="text"
           name="name"

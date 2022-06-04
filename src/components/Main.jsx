@@ -9,15 +9,15 @@ import LoginPage from "../pages/LoginPage";
 export default function Main() {
   const [people, setPeople] = useState(null);
 
-  const URL = CONFIG.peopleAPI;
+  const peopleAPI = `${CONFIG.DEV.URL}/people/`;
 
   const getPeople = async () => {
-    const data = await fetch(URL).then((res) => res.json());
+    const data = await fetch(peopleAPI).then((res) => res.json());
     setPeople(data);
   };
 
   const createPeople = async (person) => {
-    await fetch(URL, {
+    await fetch(peopleAPI, {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
@@ -28,7 +28,7 @@ export default function Main() {
   };
 
   const updatePeople = async (person, id) => {
-    await fetch(URL + id, {
+    await fetch(peopleAPI + id, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -39,13 +39,13 @@ export default function Main() {
   };
 
   const deletePeople = async (id) => {
-    await fetch(URL + id, { method: "DELETE" });
+    await fetch(peopleAPI + id, { method: "DELETE" });
     getPeople();
   };
 
   useEffect(() => {
     getPeople();
-  });
+  }, []);
 
   return (
     <main>

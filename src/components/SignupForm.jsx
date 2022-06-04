@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import signup from "../services/signup";
 
-function SignupForm({ history, updateMessage }) {
+function SignupForm({ updateMessage }) {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -23,8 +23,7 @@ function SignupForm({ history, updateMessage }) {
     e.preventDefault();
     try {
       await signup(formState);
-      // Successfully signed up - show Index
-      history.push("/");
+      // Successfully signed up - TODO: redirect to index
     } catch (err) {
       // Invalid user data (probably duplicate email)
       updateMessage(err.message);

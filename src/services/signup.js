@@ -1,7 +1,7 @@
 import CONFIG from "../config/index";
 
 function signup(user) {
-  return fetch(CONFIG.userAPI + "signup", {
+  return fetch(`${CONFIG.DEV.URL}/users/signup`, {
     method: "POST",
     headers: new Headers({ "Content-Type": "application/json" }),
     body: JSON.stringify(user),

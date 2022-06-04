@@ -1,6 +1,10 @@
 const config = {
-  peopleAPI: "https://fullstack-mern-backend-lp.herokuapp.com/people/",
-  userAPI: "https://fullstack-mern-backend-lp.herokuapp.com/users/",
+  PROD: {
+    URL: "https://fullstack-mern-backend-lp.herokuapp.com",
+  },
+  DEV: {
+    URL: "http://localhost:3001"
+  }
 };
 
 export default config;

@@ -1,11 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-// import { signup } from '../../services/userService'
-const signup = (thing) => {
-  console.log(thing);
-};
+import signup from "../services/signup";
 
-function SignupForm(props) {
+function SignupForm({ history, updateMessage }) {
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -14,7 +11,7 @@ function SignupForm(props) {
   });
 
   function handleChange(e) {
-    props.updateMessage("");
+    updateMessage("");
     setFormState((prevState) => ({
       // Using ES2015 Computed Property Names
       ...prevState,
@@ -27,20 +24,21 @@ function SignupForm(props) {
     try {
       await signup(formState);
       // Successfully signed up - show Index
-      props.history.push("/");
+      history.push("/");
     } catch (err) {
       // Invalid user data (probably duplicate email)
-      props.updateMessage(err.message);
+      updateMessage(err.message);
     }
   }
 
-  function isFormInvalid() {
-    return !(
+  function validForm() {
+    return (
       formState.name &&
       formState.email &&
       formState.password === formState.passwordConf
     );
   }
+
   return (
     <div className="auth-form">
       <form onSubmit={handleSubmit}>
@@ -74,7 +72,7 @@ function SignupForm(props) {
           onChange={handleChange}
         />
         <div className="form-controls">
-          <button disabled={isFormInvalid()}>Sign Up</button>
+          <button disabled={!validForm()}>Sign Up</button>
           <Link to="/">Cancel</Link>
         </div>
       </form>

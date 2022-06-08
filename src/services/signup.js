@@ -1,4 +1,5 @@
 import CONFIG from "../config/index";
+import { setToken, getUserFromToken, removeToken } from "./tokenService"
 
 function signup(user) {
   return fetch(`${CONFIG.DEV.URL}/users/signup`, {
@@ -11,7 +12,19 @@ function signup(user) {
       // Probably a duplicate email
       throw new Error("Email already taken!");
     })
-    .then((data) => data);
+    .then(({token}) => setToken(token));
 }
 
-export default signup;
+function getUser() {
+  return getUserFromToken()
+}
+
+function logout() {
+  removeToken()
+}
+
+export {
+  signup,
+  getUser,
+  logout
+}

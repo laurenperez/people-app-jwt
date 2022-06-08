@@ -6,7 +6,7 @@ import CONFIG from "../config/index";
 import SignupPage from "../pages/SignupPage"
 import LoginPage from "../pages/LoginPage";
 
-export default function Main() {
+export default function Main(props) {
   const [people, setPeople] = useState(null);
 
   const peopleAPI = `${CONFIG.DEV.URL}/people/`;
@@ -64,7 +64,7 @@ export default function Main() {
             />
           }
         />
-        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/signup" element={<SignupPage {...props}/>} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </main>

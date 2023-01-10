@@ -1,37 +1,21 @@
-// Helpers Functions for Token Stuff
+// ALL TOKEN HELPER FUNCTIONS aka "SERVICES"
 
-function setToken(token) {
-  if (token) {
-    localStorage.setItem("token", token)
-  } else {
-    localStorage.removeItem("token");
-  }
-}
 
-function getToken() {
-  let token = localStorage.getItem("token")
-  if (token) {
-    const payload = JSON.parse(atob(token.split(".")[1]))
-    if (payload.exp < Date.now() / 1000) {
-      localStorage.removeItem('token');
-      token = null;
-    }
-  }
-  return token;
-}
+// SETS TOKEN IN LOCAL STORAGE
+// TODO: write setToken function
 
-function getUserFromToken() {
-  const token = getToken();
-  return token ? JSON.parse(atob(token.split(".")[1])).user : null;
-}
+// EXTRACT LOGGED IN USER DATA FROM TOKEN
+// TODO: write getUserFromToken fucntion
 
-function removeToken() {
-  localStorage.removeItem("token");
-}
+// GETS TOKEN FROM LOCAL STORAGE
+// TODO: write get token from local storage function
 
-export {
-  setToken,
-  getToken,
-  getUserFromToken,
-  removeToken
-}
+// CHECK IF CURRENT TOKEN IS EXPIRED
+// TODO: write a funtion that checks if the token is expired
+
+// REMOVES TOKEN IN LOCAL STORAGE
+//TODO: write a function that removes the token from local storage
+
+
+
+export { }

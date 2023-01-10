@@ -8,15 +8,15 @@ function LoginPage(props) {
   });
 
   function handleChange(e) {
-    // TODO: write the handleChange logic
+    // TODO: write the handleChange logic with setFormState
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      // TODO: write handleSubmit logic
+      // TODO: handle sucessful signup/login by setting user state for entire app
     } catch (err) {
-      // Use something other than an alert
+      // Use something other than an alert in production code
       alert("Invalid Credentials!");
     }
   }

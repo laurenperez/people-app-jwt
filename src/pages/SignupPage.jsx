@@ -1,21 +1,97 @@
 import { useState } from "react";
-import SignupForm from "../components/SignupForm";
+import { Link } from "react-router-dom";
+// TODO: import sign up function
 
 function SignupPage(props) {
   const [messageState, setMessageState] = useState({
     msg: "",
   });
 
+  const [formState, setFormState] = useState({
+    name: "",
+    email: "",
+    password: "",
+    passwordConf: "",
+  });
+  
   function updateMessage(msg) {
     setMessageState({ message: msg });
   }
 
+  function handleChange(e) {
+    updateMessage("");
+    setFormState((prevState) => ({
+      // Using ES2015 Computed Property Names
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+
+      // TODO:
+      // 1 send user data to server to sign up - api call
+      // 2 handle sucessful signup/login by setting user state for entire app
+    
+    } catch (err) {
+      // Invalid user data (probably duplicate email)
+      updateMessage(err.message);
+    }
+  }
+
+  // returns true only if all the required fields are complete and password is confirmed
+  function validForm() {
+    return (
+      formState.name &&
+      formState.email &&
+      formState.password === formState.passwordConf
+    );
+  }
+
   return (
-    <div>
-      <SignupForm {...props} updateMessage={updateMessage} />
+    <div className="auth-form">
+      <form onSubmit={handleSubmit}>
+        <legend>Sign Up</legend>
+        <input
+          type="text"
+          placeholder="Name"
+          value={formState.name}
+          name="name"
+          onChange={handleChange}
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={formState.email}
+          name="email"
+          onChange={handleChange}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={formState.password}
+          name="password"
+          onChange={handleChange}
+        />
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          value={formState.passwordConf}
+          name="passwordConf"
+          onChange={handleChange}
+        />
+        <div className="form-controls">
+          <button disabled={!validForm()}>Sign Up</button>
+          <Link to="/">Cancel</Link>
+        </div>
+      </form>
       <p>{messageState.msg}</p>
     </div>
   );
 }
+    
 
 export default SignupPage;
+

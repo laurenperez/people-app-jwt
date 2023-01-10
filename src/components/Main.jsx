@@ -21,6 +21,7 @@ export default function Main(props) {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
+        // TODO: add auth header here
       },
       body: JSON.stringify(person),
     });
@@ -32,6 +33,7 @@ export default function Main(props) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        // TODO: add auth header here
       },
       body: JSON.stringify(person),
     });
@@ -39,7 +41,10 @@ export default function Main(props) {
   };
 
   const deletePeople = async (id) => {
-    await fetch(peopleAPI + id, { method: "DELETE" });
+    await fetch(peopleAPI + id, {
+      method: "DELETE",
+      // TODO: add auth header here
+    });
     getPeople();
   };
 
@@ -50,6 +55,7 @@ export default function Main(props) {
   return (
     <main>
       <Routes>
+        {/* TODO: Lets Protect these routes! */}
         <Route
           path="/"
           element={<Index people={people} createPeople={createPeople} />}

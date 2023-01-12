@@ -1,19 +1,21 @@
 import Header from "./components/Header";
 import Main from "./components/Main";
-// TODO : import logout function
-// TODO: import get user function
+import { getUserFromToken } from "./services/tokenService"
+import { logout } from "./services/signupService"
+
 import { useState } from "react";
 
 function App(props) {
-  // TODO: Check for token on page load, set default state
-  const [userState, setUserState] = useState({ user: "?" })
+  const [userState, setUserState] = useState({ user: getUserFromToken() })
 
   function handleSignupAndLogIn() {
-    // TODO : set the state of the app with the logged in user
+    let user = getUserFromToken();
+    console.log("****************" + user);
+    setUserState({ user: getUserFromToken() })
   }
 
   function handleLogout() {
-    // TODO : create a logout function to remove user token
+    logout()
     setUserState({ user: null });
   }
 

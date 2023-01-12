@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-// TODO: import sign up function
+import { Link, useNavigate } from "react-router-dom";
+import { signup } from '../services/signupService'
 
 function SignupPage(props) {
   const [messageState, setMessageState] = useState({
@@ -13,6 +13,8 @@ function SignupPage(props) {
     password: "",
     passwordConf: "",
   });
+
+  const navigate = useNavigate();
   
   function updateMessage(msg) {
     setMessageState({ message: msg });
@@ -30,11 +32,9 @@ function SignupPage(props) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-
-      // TODO:
-      // 1 send user data to server to sign up - api call
-      // 2 handle sucessful signup/login by setting user state for entire app
-    
+      signup(formState)
+      props.handleSignupAndLogIn()
+      navigate("/", { replace: true });
     } catch (err) {
       // Invalid user data (probably duplicate email)
       updateMessage(err.message);

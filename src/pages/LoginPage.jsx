@@ -1,20 +1,29 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from '../services/signupService'
 
-function LoginPage(props) {
+function LoginPage({ handleSignupAndLogin, updateMessage }) {
   const [formState, setFormState] = useState({
     email: "",
     password: "",
   });
 
+  const navigate = useNavigate();
+
   function handleChange(e) {
-    // TODO: write the handleChange logic with setFormState
+    setFormState((prevState) => ({
+      // Using ES2015 Computed Property Names
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      // TODO: handle sucessful signup/login by setting user state for entire app
+      await login(formState);
+      handleSignupAndLogin();
+      navigate("/", { replace: true });
     } catch (err) {
       // Use something other than an alert in production code
       alert("Invalid Credentials!");

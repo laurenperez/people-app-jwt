@@ -2,20 +2,54 @@
 
 
 // SETS TOKEN IN LOCAL STORAGE
-// TODO: write setToken function
+function setToken(token) {
+  if (token) {
+    localStorage.setItem("token", token);
+  } else {
+    localStorage.removeItem("token");
+  }
+}
 
 // EXTRACT LOGGED IN USER DATA FROM TOKEN
-// TODO: write getUserFromToken fucntion
+function getUserFromToken() {
+  const token = getToken();
+  const user = token ? JSON.parse(atob(token.split(".")[1])).user : null;
+  console.log(user)
+  return user
+}
 
 // GETS TOKEN FROM LOCAL STORAGE
-// TODO: write get token from local storage function
+function getToken() {
+  let token = localStorage.getItem("token");
+  if (token) {
+    // Check if expired, remove if it is
+    let expired = isTokenExpired(token)
+    if (expired) {
+      localStorage.removeItem("token");
+      token = null;
+    }
+  }
+  return token;
+}
 
 // CHECK IF CURRENT TOKEN IS EXPIRED
-// TODO: write a funtion that checks if the token is expired
+function isTokenExpired(token) {
+  const payload = JSON.parse(atob(token.split(".")[1]));
+  // JWT's expiration is expressed in seconds, not milliseconds, so convert
+  return payload.exp < (Date.now() / 1000)
+}
 
 // REMOVES TOKEN IN LOCAL STORAGE
-//TODO: write a function that removes the token from local storage
+function removeToken() {
+  localStorage.removeItem("token")
+}
 
 
 
-export { }
+export {
+  setToken,
+  getToken,
+  removeToken,
+  getUserFromToken,
+  isTokenExpired
+}

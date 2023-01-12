@@ -1,34 +1,38 @@
 import CONFIG from "../config/index";
-// TODO: import set token function
-// TODO: import remove token function
+import { setToken, removeToken } from "./tokenService";
 
-async function signup(formData) {
-  let response = await fetch(`${CONFIG.DEV.URL}/users/signup`, {
+function signup(newUser) {
+  return fetch(`${CONFIG.DEV.URL}/users/signup`, {
     method: "POST",
     headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify(formData),
+    body: JSON.stringify(newUser),
   })
-  console.log(response);
-  // TODO: return Error if no token
-  //TODO: set the token in local storage to "login" the user
+    .then((res) => {
+      if (res.ok) return res.json();
+      // Probably a duplicate email
+      throw new Error("Email already taken!");
+    })
+    .then(({ token }) => {
+      setToken(token);
+    });
 }
 
-
-async function login(formData) {
-  let response = await fetch(`${CONFIG.DEV.URL}/users/login`, {
+function login(creds) {
+  return fetch(`${CONFIG.DEV.URL}/users/login`, {
     method: "POST",
     headers: new Headers({ "Content-Type": "application/json" }),
-    body: JSON.stringify(formData),
-  });
-  console.log( response )
-  // TODO: return Error if no token
-  //TODO: set the token in local storage to "login" the user
+    body: JSON.stringify(creds),
+  })
+    .then((res) => {
+      // Valid login if we have a status of 2xx (res.ok)
+      if (res.ok) return res.json();
+      throw new Error("Bad Credentials!");
+    })
+    .then(({ token }) => setToken(token));
 }
-
-
 
 function logout() {
-  // TODO: remove token from local storage to prevent access to protected routes
+  removeToken();
 }
 
-export { }
+export { signup, login, logout };

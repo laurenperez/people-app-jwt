@@ -3,7 +3,7 @@ const config = {
     URL: "https://fullstack-mern-backend-lp.herokuapp.com",
   },
   DEV: {
-    URL: "http://localhost:3001"
+    URL: "http://localhost:4000"
   }
 };
 

@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import Index from "../pages/Index";
 import Show from "../pages/Show";
 import CONFIG from "../config/index";
-import SignupPage from "../pages/SignupPage"
+import SignupPage from "../pages/SignupPage";
 import LoginPage from "../pages/LoginPage";
+import ProtectedRoute from "../components/Protected-Route";
+import { getToken } from "../services/tokenService";
 
 export default function Main(props) {
   const [people, setPeople] = useState(null);
@@ -12,7 +14,14 @@ export default function Main(props) {
   const peopleAPI = `${CONFIG.DEV.URL}/people/`;
 
   const getPeople = async () => {
-    const data = await fetch(peopleAPI).then((res) => res.json());
+    const data = await fetch(peopleAPI, {
+      method: "GET",
+      headers: {
+        "Content-Type": "Application/json",
+        // Add this header - don't forget the space after Bearer
+        Authorization: `Bearer ${getToken()}`,
+      },
+    }).then((res) => res.json());
     setPeople(data);
   };
 
@@ -21,7 +30,8 @@ export default function Main(props) {
       method: "POST",
       headers: {
         "Content-Type": "Application/json",
-        // TODO: add auth header here
+        // Add this header - don't forget the space after Bearer
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(person),
     });
@@ -33,7 +43,8 @@ export default function Main(props) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        // TODO: add auth header here
+        // Add this header - don't forget the space after Bearer
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(person),
     });
@@ -43,35 +54,44 @@ export default function Main(props) {
   const deletePeople = async (id) => {
     await fetch(peopleAPI + id, {
       method: "DELETE",
-      // TODO: add auth header here
+      headers: {
+        "Content-Type": "application/json",
+        // Add this header - don't forget the space after Bearer
+        Authorization: `Bearer ${getToken()}`,
+      },
     });
     getPeople();
   };
 
   useEffect(() => {
-    getPeople();
+    // getPeople();
   }, []);
 
   return (
     <main>
       <Routes>
-        {/* TODO: Lets Protect these routes! */}
         <Route
           path="/"
-          element={<Index people={people} createPeople={createPeople} />}
+          element={
+            <ProtectedRoute user={props.user}>
+              <Index people={people} createPeople={createPeople} />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/people/:id"
           element={
-            <Show
-              people={people}
-              deletePeople={deletePeople}
-              updatePeople={updatePeople}
-            />
+            <ProtectedRoute user={props.user}>
+              <Show
+                people={people}
+                deletePeople={deletePeople}
+                updatePeople={updatePeople}
+              />
+            </ProtectedRoute>
           }
         />
-        <Route path="/signup" element={<SignupPage {...props}/>} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage {...props} />} />
+        <Route path="/login" element={<LoginPage {...props} />} />
       </Routes>
     </main>
   );
